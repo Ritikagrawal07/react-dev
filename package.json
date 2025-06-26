@@ -1,0 +1,34 @@
+{
+  "name": "namastereact",
+  "version": "1.0.0",
+  "description": "this is react learning by ritik agrawal",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ritikagrawal07/react-dev.git"
+  },
+  "keywords": [
+    "react",
+    "ritik"
+  ],
+  "author": "ritik agrawal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ritikagrawal07/react-dev/issues"
+  },
+  "homepage": "https://github.com/Ritikagrawal07/react-dev#readme",
+  "devDependencies": {
+    "parcel": "^2.15.2"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
+}
