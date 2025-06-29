@@ -1,63 +1,88 @@
 
 import ResturantCard from "./ResturantCard.jsx";
 import resList from "../utils/mockData.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Shimmer from "./shimmer.jsx";
 
 
-const Body = () =>{
+const Body = () => {
+  const [listOfresturants, setlistofresturants] = useState(resList);
+  const [filteredResturant, setfilteredResturant] = useState(resList);
+  const [searchText, setsearchText] = useState("");
 
-    const [listOfresturants,setlistofresturants] = useState(resList);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
-    // let listOfresturants = null ;
+  // const fetchData = async () => {
+  //   try {
+  //     const data = await fetch(
+  //       "https://swiggy-api-4c740.web.app/swiggy-api.json"
+  //     );
 
-   let listOfresturantsjs = [
-  {
-    info: {
-      id: "750239",
-      name: "Shake",
-      cloudinaryImageId:
-        "MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/8f508de7-e0ac-4ba8-b54d-def9db98959e_Shake.png",
-      cuisines: ["Beverages"],
-      costForTwo: "₹150 for two",
-      avgRating: 4.5
-    }
-  },
-  {
-    info: {
-      id: "750132",
-      name: "Juice",
-      cloudinaryImageId:
-        "MERCHANDISING_BANNERS/IMAGES/MERCH/2024/7/2/8f508de7-e0ac-4ba8-b54d-def9db98959e_Shake.png",
-      cuisines: ["Beverages"],
-      costForTwo: "₹150 for two",
-      avgRating: 3.8
-    }
+  //     const json = await data.json();
+
+  //     const restaurants =
+  //       json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+  //         ?.restaurants || [];
+
+  //     setlistofresturants(restaurants);
+  //     setfilteredResturant(restaurants);
+  //   } catch (error) {
+  //     console.error("Error fetching restaurant data:", error);
+  //   }
+  // };
+
+  if (listOfresturants.length === 0) {
+    return <Shimmer />;
   }
-];
 
-    return(
-        <div className="body">
-            <div className="filter">
-                <button className="filter-btn" onClick={() => 
-                    {
-                        // filter logic here
-                        const filteredList=listOfresturants.filter((res)=>res.info.avgRating >4.3
-                    );setlistofresturants(filteredList)
-                    }}>Top Rated Resturants</button>
-            </div>
-            <div className="resturant-container">
-                 {/* Resturnat card separate component*/}
-                 {
-          listOfresturants.map((restaurant) => (
-            <ResturantCard key={restaurant.info.id} resData={restaurant} />
-          ))
-        }
-                 
-
-            </div>
+  return (
+    <div className="body">
+      <div className="filter">
+        <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setsearchText(e.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              const filtered = listOfresturants.filter((res) =>
+                res.info.name.toLowerCase().includes(searchText.toLowerCase())
+              );
+              setfilteredResturant(filtered);
+            }}
+          >
+            Search
+          </button>
         </div>
-    )
-}
+
+        <button
+          className="filter-btn"
+          onClick={() => {
+            const filteredList = listOfresturants.filter(
+              (res) => res.info.avgRating > 4.3
+            );
+            setfilteredResturant(filteredList); // ✅ Update filtered, not original
+          }}
+        >
+          Top Rated Restaurants
+        </button>
+      </div>
+
+      <div className="resturant-container">
+        {filteredResturant.map((restaurant) => (
+          <ResturantCard key={restaurant.info.id} resData={restaurant} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 
 export default Body;
